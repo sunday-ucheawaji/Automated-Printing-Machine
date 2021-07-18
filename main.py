@@ -42,6 +42,8 @@ class AutomatedPrinter:
         self.required_ink = 0
         self.required_paper = 0
         self.cost = 0
+        self.payment = 0
+        self.mother_function()
 
     def user_start_prompt(self):
         while True:
@@ -81,7 +83,7 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             self.cost = int(self.page_number) * self.price_greyscale
             print(f"Your price is #{self.cost}")
 
-    def currency_validation(self):
+    def currency_validation_errorhandling(self):
         while True:
             try:
                 my_arr = []
@@ -106,22 +108,33 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             except Exception as err:
                 print(str(err))
 
+    def transaction_value_error_check(self):
+        while True:
+            try:
+                splitted_arr = self.currency_validation_errorhandling()
+                self.payment = (int(splitted_arr[0]) * self.biyar) + (int(splitted_arr[1]) * self.faiba) + \
+                      (int(splitted_arr[2]) * self.muri) + (int(splitted_arr[3]) * self.wazobia)
+                if self.payment:
+                    return self.payment
+                else:
+                    raise ValueError
+            except ValueError:
+                print("Your input for quantity of notes is invalid")
+
     def transaction(self):
-        splitted_arr = self.currency_validation()
-        payment = (int(splitted_arr[0]) * self.biyar) + (int(splitted_arr[1]) * self.faiba) + \
-                  (int(splitted_arr[2]) * self.muri) + (int(splitted_arr[3]) * self.wazobia)
-        print(f"You paid in {payment}")
-        if payment < self.cost:
+        self.transaction_value_error_check()
+        print(f"You paid in {self.payment}")
+        if self.payment < self.cost:
             print("Sorry that's not enough money. Money refunded")
 
-        elif payment > self.cost:
-            change = payment - self.cost
+        elif self.payment > self.cost:
+            change = self.payment - self.cost
             self.profit = self.profit + self.cost
             self.ink = self.ink - self.required_ink
             self.paper = self.paper - self.required_paper
             self.is_successful = True
             print(f"Here is your #{change} change")
-        elif payment == self.cost:
+        elif self.payment == self.cost:
             self.profit = self.profit + self.cost
             self.ink = self.ink - self.required_ink
             self.paper = self.paper - self.required_paper
@@ -186,4 +199,4 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             self.end_or_continue()
 
 
-AutomatedPrinter().mother_function()
+AutomatedPrinter()
