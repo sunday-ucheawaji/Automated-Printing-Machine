@@ -54,8 +54,8 @@ WELCOME TO DECAGON AUTOMATED PRINTER
 >> Please enter 'report' to generate current resource values
 >> Turn off the printing machine by entering 'off'\n
 """)
-                if self.user_choice in ['coloured', 'grayscale', 'report', 'off']:
-                    return self.user_choice
+                if self.user_choice.lower() in ['coloured', 'grayscale', 'report', 'off']:
+                    return self.user_choice.lower()
                 else:
                     raise Exception("Invalid option")
             except Exception as err:
@@ -73,7 +73,9 @@ WELCOME TO DECAGON AUTOMATED PRINTER
                 print(str(err))
 
     def maintenance(self):
-        exit()
+        if self.user_choice.lower() == 'off':
+            self.mode= "off"
+            exit()
 
     def cost_of_printing(self):     # Perfect
         if self.user_choice.lower() == "coloured":
@@ -126,6 +128,7 @@ WELCOME TO DECAGON AUTOMATED PRINTER
         print(f"You paid in {self.payment}")
         if self.payment < self.cost:
             print("Sorry that's not enough money. Money refunded")
+            self.is_successful = False
 
         elif self.payment > self.cost:
             change = self.payment - self.cost
@@ -168,6 +171,8 @@ WELCOME TO DECAGON AUTOMATED PRINTER
         if self.is_successful:
             print("Transaction successful!")
             print("Here is your Project and Thank you for using our services")
+        else:
+            print("Transaction is unsuccessful!")
 
     def end_or_continue(self):
         while True:
