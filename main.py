@@ -43,6 +43,12 @@ class AutomatedPrinter:
         self.required_paper = 0
         self.cost = 0
         self.payment = 0
+        self.biya_notes = 0
+        self.faiba_notes = 0
+        self.muri_notes = 0
+        self.wazobia_notes = 0
+
+        # called method
         self.mother_function()
 
     def user_start_prompt(self):
@@ -50,7 +56,7 @@ class AutomatedPrinter:
             try:
                 self.user_choice = input("""
 WELCOME TO DECAGON AUTOMATED PRINTER
->> What format would you like? (coloured or grayscale )
+>> What format would you like? Enter 'coloured' or 'grayscale'.
 >> Please enter 'report' to generate current resource values
 >> Turn off the printing machine by entering 'off'\n
 """)
@@ -74,57 +80,64 @@ WELCOME TO DECAGON AUTOMATED PRINTER
 
     def maintenance(self):
         if self.user_choice.lower() == 'off':
-            self.mode= "off"
+            self.mode = "off"
             exit()
 
     def cost_of_printing(self):     # Perfect
         if self.user_choice.lower() == "coloured":
             self.cost = int(self.page_number) * self.price_coloured
             print(f"Your price is #{self.cost}")
-        elif self.user_choice.lower() == "greyscale":
+            print("------------------------------------------------------------")
+            print("Please choose the currency denomination you want to pay with")
+        elif self.user_choice.lower() == "grayscale":
             self.cost = int(self.page_number) * self.price_greyscale
             print(f"Your price is #{self.cost}")
+            print("------------------------------------------------------------")
+            print("Please choose the currency denomination you want to pay with")
 
     def currency_validation_errorhandling(self):
         while True:
             try:
-                my_arr = []
-                biyar = input("Enter the number of Biyar(#5) notes or '0' if none ")
-                my_arr.append(biyar)
-                faiba = input("Enter the number of Faiba(#10) notes or '0' if none ")
-                my_arr.append(faiba)
-                muri = input("Enter the number of Muri(#20) notes or '0' if none ")
-                my_arr.append(muri)
-                wazobia = input("Enter the number of Wazobia(#50) notes or '0' if none ")
-                my_arr.append(wazobia)
-                currency = ','.join(my_arr)
-                pattern = re.compile("[\s]*[0-9]{1,}[\s]*,[\s]*[0-9]{1,}[\s]*,[\s]*[0-9]{1,}[\s]*")
-                if bool(pattern.match(currency)):
-                    split_list = currency.split(',')
-                    arr = []
-                    for digit in split_list:
-                        arr.append(digit.strip())
-                    return arr
+                currency_choice = input(""" 
+>>Enter 1 for Biya (#5) >>Enter 2 for Faiba (#10)
+>>Enter 3 for Muri (#20) >>Enter 4 for Wazobia (#50)
+>>Enter 5 when you are Done 
+""").strip()
+                if currency_choice in ['1', '2', '3', '4', '5']:
+                    if currency_choice == '1':
+                        abc = input("enter Biyar(#5) note quantity ")
+                        self.biya_notes += int(abc)
+                        self.currency_validation_errorhandling()
+                    elif currency_choice == '2':
+                        defg = input(f"enter Faiba(#10) note quantity ")
+                        self.faiba_notes += int(defg)
+                        self.currency_validation_errorhandling()
+                    elif currency_choice == '3':
+                        ijk = input("enter Muri(#20) note quantity ")
+                        self.muri_notes += int(ijk)
+                        self.currency_validation_errorhandling()
+                    elif currency_choice == '4':
+                        mno = input("enter Wazobia (#50) note quantity ")
+                        self.wazobia_notes += int(mno)
+                        self.currency_validation_errorhandling()
+                    elif currency_choice == '5':
+                        break
                 else:
-                    raise Exception("Invalid input")
+                    raise Exception("Invalid option")
+            except ValueError:
+                print("Input must be a number")
+                self.currency_validation_errorhandling()
             except Exception as err:
                 print(str(err))
+                self.currency_validation_errorhandling()
 
-    def transaction_value_error_check(self):
-        while True:
-            try:
-                splitted_arr = self.currency_validation_errorhandling()
-                self.payment = (int(splitted_arr[0]) * self.biyar) + (int(splitted_arr[1]) * self.faiba) + \
-                      (int(splitted_arr[2]) * self.muri) + (int(splitted_arr[3]) * self.wazobia)
-                if self.payment:
-                    return self.payment
-                else:
-                    raise ValueError
-            except ValueError:
-                print("Your input for quantity of notes is invalid")
+            self.payment = (self.biya_notes * self.biyar) + (self.faiba_notes * self.faiba) + \
+                           (self.muri_notes * self.muri) + (self.wazobia_notes * self.wazobia)
+            return self.payment
 
     def transaction(self):
-        self.transaction_value_error_check()
+        self.currency_validation_errorhandling()
+        print('------------------------------------')
         print(f"You paid in {self.payment}")
         if self.payment < self.cost:
             print("Sorry that's not enough money. Money refunded")
