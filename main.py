@@ -1,7 +1,6 @@
 # The entry point of you application
 from assets import art
 from data import data
-import re
 
 print(art.logo)
 
@@ -48,6 +47,8 @@ class AutomatedPrinter:
         self.faiba_notes = 0
         self.muri_notes = 0
         self.wazobia_notes = 0
+        self.colour_type = ''
+        self.count = 0
 
         # called method
         self.mother_function()
@@ -57,16 +58,28 @@ class AutomatedPrinter:
             try:
                 self.user_choice = input("""
 WELCOME TO DECAGON AUTOMATED PRINTER
->> What format would you like? Enter 'coloured' or 'grayscale'.
+>> Please enter 'print' to print.
 >> Please enter 'report' to generate current resource values
 >> Turn off the printing machine by entering 'off'\n
 """)
-                if self.user_choice.lower() in ['coloured', 'grayscale', 'report', 'off']:
+                if self.user_choice.lower() in ['print', 'report', 'off']:
                     return self.user_choice.lower()
                 else:
                     raise Exception("Invalid option")
             except Exception as err:
                 print(str(err))
+
+    def coloured_greyscale(self):
+        if self.user_choice.lower() == 'print':
+            while True:
+                try:
+                    self.colour_type = input("coloured or greyscale? ")
+                    if self.colour_type.lower() == 'coloured' or self.colour_type.lower() == 'greyscale':
+                        return self.colour_type
+                    else:
+                        raise Exception("Invalid Colour type")
+                except Exception as err:
+                    print(str(err))
 
     def user_page_prompt(self):
         while True:
@@ -90,13 +103,13 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             self.mode = "off"
             exit()
 
-    def cost_of_printing(self):     # Perfect
-        if self.user_choice.lower() == "coloured":
+    def cost_of_printing(self):
+        if self.colour_type == "coloured":
             self.cost = int(self.page_number) * self.price_coloured
             print(f"Your price is #{self.cost}")
             print("------------------------------------------------------------")
             print("Please choose the currency denomination you want to pay with")
-        elif self.user_choice.lower() == "grayscale":
+        elif self.colour_type == "greyscale":
             self.cost = int(self.page_number) * self.price_greyscale
             print(f"Your price is #{self.cost}")
             print("------------------------------------------------------------")
@@ -110,25 +123,35 @@ WELCOME TO DECAGON AUTOMATED PRINTER
 >>Enter 3 for Muri (#20) >>Enter 4 for Wazobia (#50)
 >>Enter 5 when you are Done 
 """).strip()
+
                 if currency_choice in ['1', '2', '3', '4', '5']:
-                    if currency_choice == '1':
+                    if currency_choice == '5':
+                        if self.count == 0:
+                            print("You have not made payment. Please select at least one currency")
+                            self.currency_validation_errorhandling()
+                        else:
+                            break
+                    elif currency_choice == '1':
                         abc = input("Enter the number of Biyar(#5) notes ")
                         self.biya_notes += int(abc)
+                        self.count += 1
                         self.currency_validation_errorhandling()
                     elif currency_choice == '2':
                         defg = input(f"Enter the number of Faiba(#10) notes ")
                         self.faiba_notes += int(defg)
+                        self.count += 1
                         self.currency_validation_errorhandling()
                     elif currency_choice == '3':
                         ijk = input("Enter the number of Muri(#20) notes ")
                         self.muri_notes += int(ijk)
+                        self.count += 1
                         self.currency_validation_errorhandling()
                     elif currency_choice == '4':
                         mno = input("Enter the number of Wazobia(#50) notes ")
                         self.wazobia_notes += int(mno)
+                        self.count += 1
                         self.currency_validation_errorhandling()
-                    elif currency_choice == '5':
-                        break
+
                 else:
                     raise Exception("Invalid option")
             except ValueError:
@@ -216,7 +239,8 @@ WELCOME TO DECAGON AUTOMATED PRINTER
         elif self.user_choice.lower() == "report":
             self.resource_report()
             self.end_or_continue()
-        elif self.user_choice.lower() == 'coloured' or self.user_choice.lower() == 'grayscale':
+        elif self.user_choice.lower() == 'print':
+            self.coloured_greyscale()
             self.user_page_prompt()
             self.resource_check()
             self.cost_of_printing()
