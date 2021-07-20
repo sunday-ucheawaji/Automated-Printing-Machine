@@ -7,6 +7,7 @@ print(art.logo)
 
 
 class AutomatedPrinter:
+
     def __init__(self):
 
         # Printer Mode
@@ -70,11 +71,17 @@ WELCOME TO DECAGON AUTOMATED PRINTER
     def user_page_prompt(self):
         while True:
             try:
+                print("---------------Only Numbers---------------------------")
                 self.page_number = input("Please enter the number of pages\n")
-                if self.page_number.isdecimal():
+                if self.page_number.isdecimal() and int(self.page_number) > 0:
                     return self.page_number
                 else:
-                    raise Exception('Pages must be a number')
+                    if not self.page_number.isdecimal():
+                        raise Exception('Pages must be a number')
+                    elif int(self.page_number) <= 0:
+                        raise Exception("Page number must be greater than 0")
+            except ValueError:
+                print("Please enter a Number")
             except Exception as err:
                 print(str(err))
 
@@ -105,19 +112,19 @@ WELCOME TO DECAGON AUTOMATED PRINTER
 """).strip()
                 if currency_choice in ['1', '2', '3', '4', '5']:
                     if currency_choice == '1':
-                        abc = input("enter Biyar(#5) note quantity ")
+                        abc = input("Enter the number of Biyar(#5) notes ")
                         self.biya_notes += int(abc)
                         self.currency_validation_errorhandling()
                     elif currency_choice == '2':
-                        defg = input(f"enter Faiba(#10) note quantity ")
+                        defg = input(f"Enter the number of Faiba(#10) notes ")
                         self.faiba_notes += int(defg)
                         self.currency_validation_errorhandling()
                     elif currency_choice == '3':
-                        ijk = input("enter Muri(#20) note quantity ")
+                        ijk = input("Enter the number of Muri(#20) notes ")
                         self.muri_notes += int(ijk)
                         self.currency_validation_errorhandling()
                     elif currency_choice == '4':
-                        mno = input("enter Wazobia (#50) note quantity ")
+                        mno = input("Enter the number of Wazobia(#50) notes ")
                         self.wazobia_notes += int(mno)
                         self.currency_validation_errorhandling()
                     elif currency_choice == '5':
@@ -173,12 +180,13 @@ WELCOME TO DECAGON AUTOMATED PRINTER
         else:
             if self.paper < self.required_paper and self.ink < self.required_ink:
                 print("Sorry there is not enough paper and ink")
-                proceed = input('Enter "quit" to end or "proceed" to make another demand?\n') # to be worked on
-
+                self.end_or_continue()
             elif self.paper < self.required_paper:
                 print("Sorry there is not enough paper")
-            elif self.ink > self.required_ink:
+                self.end_or_continue()
+            elif self.ink < self.required_ink:
                 print("Sorry there is not enough ink.")
+                self.end_or_continue()
 
     def user_project(self):
         if self.is_successful:
