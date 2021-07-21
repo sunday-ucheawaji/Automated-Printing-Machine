@@ -138,23 +138,23 @@ WELCOME TO DECAGON AUTOMATED PRINTER
                         else:
                             break
                     elif currency_choice == '1':
-                        abc = input("Enter the number of Biyar(#5) notes ")
-                        self.biya_notes += int(abc)
+                        one = input("Enter the number of Biyar(#5) notes ")
+                        self.biya_notes += int(one)
                         self.count += 1
                         self.currency_validation_errorhandling()
                     elif currency_choice == '2':
-                        defg = input(f"Enter the number of Faiba(#10) notes ")
-                        self.faiba_notes += int(defg)
+                        two = input(f"Enter the number of Faiba(#10) notes ")
+                        self.faiba_notes += int(two)
                         self.count += 1
                         self.currency_validation_errorhandling()
                     elif currency_choice == '3':
-                        ijk = input("Enter the number of Muri(#20) notes ")
-                        self.muri_notes += int(ijk)
+                        three = input("Enter the number of Muri(#20) notes ")
+                        self.muri_notes += int(three)
                         self.count += 1
                         self.currency_validation_errorhandling()
                     elif currency_choice == '4':
-                        mno = input("Enter the number of Wazobia(#50) notes ")
-                        self.wazobia_notes += int(mno)
+                        four = input("Enter the number of Wazobia(#50) notes ")
+                        self.wazobia_notes += int(four)
                         self.count += 1
                         self.currency_validation_errorhandling()
 
