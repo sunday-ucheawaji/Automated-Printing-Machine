@@ -12,12 +12,12 @@ class AutomatedPrinter:
         # Printer Mode
         self.mode = "ON"
 
-        # Resources
+        # Resources from database
         self.ink = data.resources['ink']
         self.paper = data.resources['paper']
         self.profit = data.resources['profit']
 
-        # Format (coloured or greyscale)
+        # Format (coloured or greyscale) from database
         # Coloured
         self.price_coloured = data.FORMAT['coloured']['price']
         self.coloured_ink_unit = data.FORMAT['coloured']["materials"]['ink']
@@ -27,7 +27,7 @@ class AutomatedPrinter:
         self.greyscale_ink_unit = data.FORMAT['greyscale']["materials"]['ink']
         self.greyscale_paper_unit = data.FORMAT['greyscale']["materials"]['paper']
 
-        # Currency Denomination
+        # Currency Denomination worth or value
         self.biyar = 5
         self.faiba = 10
         self.muri = 20
@@ -51,7 +51,7 @@ class AutomatedPrinter:
         self.count = 0
 
         # called method
-        self.mother_function()
+        self.chained_function()
 
     def user_start_prompt(self):
         while True:
@@ -163,10 +163,10 @@ WELCOME TO DECAGON AUTOMATED PRINTER
 
             self.payment = (self.biya_notes * self.biyar) + (self.faiba_notes * self.faiba) + \
                            (self.muri_notes * self.muri) + (self.wazobia_notes * self.wazobia)
+
             return self.payment
 
     def transaction(self):
-        self.currency_validation_errorhandling()
         print('------------------------------------')
         print(f"You paid in {self.payment}")
         if self.payment < self.cost:
@@ -219,12 +219,18 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             print("Transaction is unsuccessful!")
 
     def end_or_continue(self):
+        # self.payment = 0
+        # self.cost = 0
+        self.biya_notes = 0
+        self.faiba_notes = 0
+        self.muri_notes = 0
+        self.wazobia_notes = 0
         while True:
             try:
                 proceed = input("Enter 'yes' to continue or 'no' to terminate process ")
                 if proceed.lower() == 'yes' or proceed.lower() == 'no':
                     if proceed.lower() == 'yes':
-                        return self.mother_function()
+                        return self.chained_function()
                     elif proceed.lower() == 'no':
                         return self.maintenance()
                 else:
@@ -232,7 +238,7 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             except Exception as err:
                 print(str(err))
 
-    def mother_function(self):
+    def chained_function(self):
         self.user_start_prompt()
         if self.user_choice.lower() == "off":
             self.maintenance()
@@ -244,9 +250,12 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             self.user_page_prompt()
             self.resource_check()
             self.cost_of_printing()
+            self.currency_validation_errorhandling()
             self.transaction()
             self.user_project()
             self.end_or_continue()
 
 
-AutomatedPrinter()
+printer = AutomatedPrinter()
+# printer = AutomatedPrinter().chained_function()
+
