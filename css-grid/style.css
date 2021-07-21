@@ -2,10 +2,12 @@
 .header {
     background-color: blue;
     grid-area: h;
+
 }
 .navigation {
     background-color: green;
     grid-area: n;
+
 }
 
 .main {
@@ -19,10 +21,15 @@
 .ads {
     background-color: palegoldenrod;
     grid-area: a;
+
 }
 .footer {
     background-color: darkmagenta;
     grid-area: f;
+
+}
+.child {
+        border-radius: 5px;
 }
 
 @media only screen and (min-width: 769px){
@@ -31,7 +38,7 @@
         display: grid;
         grid-gap: 3px;
         grid-template-columns: repeat(12, 1fr);
-        grid-template-rows: 40px 40px auto 20px;
+        grid-template-rows: 0.2fr 0.2fr 1fr 1fr 1fr 0.2fr;
         grid-template-areas:
         "h h h h h h h h h h h h"
         "s s n n n n n n n n a a"
@@ -49,7 +56,7 @@
         display: grid;
         grid-gap: 3px;
         grid-template-columns: repeat(12, 1fr);
-        grid-template-rows: 40px 40px auto 10px;
+        grid-template-rows: 0.2fr 0.1fr 0.5fr 0.5fr 0.5fr 0.1fr;
         grid-template-areas:
         "h h h h h h h h h h h h"
         "n n n n n n n n n n n n"
