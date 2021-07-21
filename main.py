@@ -54,6 +54,7 @@ class AutomatedPrinter:
         self.chained_function()
 
     def user_start_prompt(self):
+        """ Ask the user for the operation they want to perform """
         while True:
             try:
                 self.user_choice = input("""
@@ -70,6 +71,7 @@ WELCOME TO DECAGON AUTOMATED PRINTER
                 print(str(err))
 
     def coloured_greyscale(self):
+        """ Ask the user for the print colour, coloured or greyscale """
         if self.user_choice.lower() == 'print':
             while True:
                 try:
@@ -82,6 +84,7 @@ WELCOME TO DECAGON AUTOMATED PRINTER
                     print(str(err))
 
     def user_page_prompt(self):
+        """The user enters the page number which must be a number greater than 0 """
         while True:
             try:
                 print("---------------Only Numbers---------------------------")
@@ -99,11 +102,13 @@ WELCOME TO DECAGON AUTOMATED PRINTER
                 print(str(err))
 
     def maintenance(self):
+        """ The user can switch off the printer"""
         if self.user_choice.lower() == 'off':
             self.mode = "off"
             exit()
 
     def cost_of_printing(self):
+        """The cost of printing whether coloured or greyscale is determined"""
         if self.colour_type == "coloured":
             self.cost = int(self.page_number) * self.price_coloured
             print(f"Your price is #{self.cost}")
@@ -116,6 +121,7 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             print("Please choose the currency denomination you want to pay with")
 
     def currency_validation_errorhandling(self):
+        """ The user can pay with any currency he chooses and the payment is computed"""
         while True:
             try:
                 currency_choice = input(""" 
@@ -167,6 +173,8 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             return self.payment
 
     def transaction(self):
+        """ The cost of printing is compared with the amount paid.
+        Where the amount paid is equal or greater the transaction becomes successful"""
         print('------------------------------------')
         print(f"You paid in {self.payment}")
         if self.payment < self.cost:
@@ -187,6 +195,8 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             self.is_successful = True
 
     def resource_report(self):
+        """ The current resources available is displayed when called
+        as well as the current profit"""
         report = {
             'ink': self.ink,
             'paper': self.paper,
@@ -195,9 +205,11 @@ WELCOME TO DECAGON AUTOMATED PRINTER
         print(report)
 
     def resource_check(self):
+        """The user demand is compared with the available resources. If
+        there are available resources, the operation moves on"""
         self.required_ink = int(self.page_number) * self.coloured_ink_unit
         self.required_paper = int(self.page_number) * self.coloured_paper_unit
-        condition = self.paper > self.required_paper and self.ink > self.required_ink
+        condition = self.paper >= self.required_paper and self.ink >= self.required_ink
         if condition:
             print("There are enough resources for this demand")
         else:
@@ -212,6 +224,7 @@ WELCOME TO DECAGON AUTOMATED PRINTER
                 self.end_or_continue()
 
     def user_project(self):
+        """ The appropriate message is displayed if the operation is successful or otherwise"""
         if self.is_successful:
             print("Transaction successful!")
             print("Here is your Project and Thank you for using our services")
@@ -219,8 +232,7 @@ WELCOME TO DECAGON AUTOMATED PRINTER
             print("Transaction is unsuccessful!")
 
     def end_or_continue(self):
-        # self.payment = 0
-        # self.cost = 0
+        """ The user is given an option to either proceed or end the process"""
         self.biya_notes = 0
         self.faiba_notes = 0
         self.muri_notes = 0
@@ -239,6 +251,7 @@ WELCOME TO DECAGON AUTOMATED PRINTER
                 print(str(err))
 
     def chained_function(self):
+        """ This determines the order in which the functions or task would be executed"""
         self.user_start_prompt()
         if self.user_choice.lower() == "off":
             self.maintenance()
