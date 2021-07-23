@@ -125,8 +125,10 @@ WELCOME TO DECAGON AUTOMATED PRINTER
         while True:
             try:
                 currency_choice = input(""" 
->>Enter 1 for Biya (#5) >>Enter 2 for Faiba (#10)
->>Enter 3 for Muri (#20) >>Enter 4 for Wazobia (#50)
+>>Enter 1 for Biya (#5)
+>>Enter 2 for Faiba (#10)
+>>Enter 3 for Muri (#20) 
+>>Enter 4 for Wazobia (#50)
 >>Enter 5 when you are Done 
 """).strip()
 
@@ -176,7 +178,7 @@ WELCOME TO DECAGON AUTOMATED PRINTER
         """ The cost of printing is compared with the amount paid.
         Where the amount paid is equal or greater the transaction becomes successful"""
         print('------------------------------------')
-        print(f"You paid in {self.payment}")
+        print(f"You paid in #{self.payment}")
         if self.payment < self.cost:
             print("Sorry that's not enough money. Money refunded")
             self.is_successful = False
@@ -198,27 +200,54 @@ WELCOME TO DECAGON AUTOMATED PRINTER
         """ The current resources available is displayed when called
         as well as the current profit"""
         report = {
-            'ink': self.ink,
-            'paper': self.paper,
-            'profit': self.profit
+            'ink': str(self.ink) + "ml",
+            'paper': str(self.paper) + "pc",
+            'profit': "#" + str(self.profit)
         }
         print(report)
 
     def resource_check(self):
         """The user demand is compared with the available resources. If
         there are available resources, the operation moves on"""
-        self.required_ink = int(self.page_number) * self.coloured_ink_unit
-        self.required_paper = int(self.page_number) * self.coloured_paper_unit
-        condition = self.paper >= self.required_paper and self.ink >= self.required_ink
-        if condition:
-            print("There are enough resources for this demand")
-        else:
-            if self.paper < self.required_paper and self.ink < self.required_ink:
+        # Coloured
+        if self.colour_type.lower() == 'coloured':
+            self.required_ink = int(self.page_number) * self.coloured_ink_unit
+            self.required_paper = int(self.page_number) * self.coloured_paper_unit
+
+            # The condition where both papers and ink are available
+            if self.paper >= self.required_paper and self.ink >= self.required_ink:
+                print("There are enough resources for this demand")
+            # The condition where both papers and ink are exhausted
+            elif self.paper < self.required_paper and self.ink < self.required_ink:
                 print("Sorry there is not enough paper and ink")
                 self.end_or_continue()
+            # The condition where only paper is not enough
             elif self.paper < self.required_paper:
                 print("Sorry there is not enough paper")
                 self.end_or_continue()
+            # The condition where only ink is not enough
+            elif self.ink < self.required_ink:
+                print("Sorry there is not enough ink.")
+                self.end_or_continue()
+
+        # Greyscale
+        elif self.colour_type.lower() == 'greyscale':
+            self.required_ink = int(self.page_number) * self.greyscale_ink_unit
+            self.required_paper = int(self.page_number) * self.greyscale_paper_unit
+
+            # The condition where both papers and ink are available
+            if self.paper >= self.required_paper and self.ink >= self.required_ink:
+                print("There are enough resources for this demand")
+            # The condition where both papers and ink are exhausted
+            elif self.paper < self.required_paper and self.ink < self.required_ink:
+                print("Sorry there is not enough paper and ink")
+                self.end_or_continue()
+            # The condition where only paper is not enough
+            elif self.paper < self.required_paper:
+                print("Sorry there is not enough paper")
+                self.end_or_continue()
+
+            # The condition where only ink is not enough
             elif self.ink < self.required_ink:
                 print("Sorry there is not enough ink.")
                 self.end_or_continue()

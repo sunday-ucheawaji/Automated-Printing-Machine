@@ -1,31 +1,51 @@
 
+body {
+    color: black;
+    box-sizing: border-box;
+    margin: 0
+}
+
 .header {
-    background-color: blue;
     grid-area: h;
+    border-color: crimson;
+    border-style: solid;
+    text-align: left
+
 
 }
 .navigation {
-    background-color: green;
     grid-area: n;
+    border-color: crimson;
+    border-style: solid;
+    text-align: left
+
 
 }
 
 .main {
-    background-color: red;
     grid-area: m;
+    border-style: solid;
+    border-color: crimson;
+    text-align: left
 }
 .sidebar {
-    background-color: saddlebrown;
     grid-area: s;
+    border-style: solid;
+    border-color: crimson;
+    text-align: left
 }
 .ads {
-    background-color: palegoldenrod;
     grid-area: a;
+    border-style: solid;
+    border-color: crimson;
+    text-align: left
 
 }
 .footer {
-    background-color: darkmagenta;
     grid-area: f;
+    border-style: solid;
+    border-color: crimson;
+    text-align: left
 
 }
 .child {
@@ -35,6 +55,7 @@
 @media only screen and (min-width: 769px){
     .container{
         height: 100vh;
+        font-size: large;
         display: grid;
         grid-gap: 3px;
         grid-template-columns: repeat(12, 1fr);
@@ -53,6 +74,7 @@
 @media only screen and (max-width: 768px){
     .container{
         height: 100vh;
+        font-size: medium;
         display: grid;
         grid-gap: 3px;
         grid-template-columns: repeat(12, 1fr);
@@ -71,6 +93,7 @@
 @media only screen and (max-width: 480px){
     .container{
         height: 100vh;
+        font-size: small;
         display: grid;
         grid-gap: 3px;
         grid-template-columns: repeat(12, 1fr);
